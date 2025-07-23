@@ -1,0 +1,65 @@
+# Build results
+bin/
+obj/
+
+# Rider project files
+.idea/
+*.sln.iml
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio files
+.vs/
+
+# Resharper files
+_ReSharper*/
+*.DotSettings.user
+
+# DotCover files
+*.dotCover
+
+# Rider local history
+.idea/.idea.LocalHistory/
+
+# Logs
+*.log
+
+# Backup & temp files
+*.bak
+*.tmp
+*.temp
+
+# Others
+*.vspscc
+*.vssscc
+
+# NuGet packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+
+# Visual Studio Code files
+.vscode/
+
+# Publish output
+publish/
+
+# IIS Express
+/.vs/
+
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+
+# Rider caches
+.idea/.idea.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
