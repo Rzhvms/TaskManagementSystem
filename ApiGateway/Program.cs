@@ -1,6 +1,5 @@
 using ApiGateway.Middleware;
 using ApiGateway.Polly;
-using ApiGateway.Transforms;
 using Microsoft.Extensions.Http;
 using Polly;
 using Polly.Extensions.Http;
@@ -28,8 +27,7 @@ builder.Services.AddSingleton<IHttpMessageHandlerBuilderFilter>(_ =>
 
 // YARP reverse proxy
 builder.Services.AddReverseProxy()
-    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
-    .AddTransforms<JwtTokenTransform>();
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 // Logs
 builder.Logging.ClearProviders();

@@ -34,7 +34,7 @@ public class CachingMiddleware
             return;
         }
 
-        _logger.LogInformation("Промах по кэшу {CacheKey}", cacheKey);
+        _logger.LogInformation("Кэш отсутствует {CacheKey}", cacheKey);
 
         var originalBodyStream = context.Response.Body;
         using var memoryStream = new MemoryStream();
@@ -48,7 +48,7 @@ public class CachingMiddleware
 
         if (context.Response.StatusCode == 200)
         {
-            _cache.Set(cacheKey, responseBody, TimeSpan.FromMinutes(5));
+            _cache.Set(cacheKey, responseBody, TimeSpan.FromMinutes(2));
         }
 
         await memoryStream.CopyToAsync(originalBodyStream);
