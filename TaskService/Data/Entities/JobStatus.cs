@@ -2,7 +2,7 @@ namespace TaskService.Data.Entities;
 
 public enum JobStatus
 {
-    ToDo,
+    ToDo = 1,
     InProgress,
     OnReview,
     Done

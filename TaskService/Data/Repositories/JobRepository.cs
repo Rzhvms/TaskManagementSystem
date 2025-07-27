@@ -2,7 +2,7 @@ using System.Data;
 using Dapper;
 using TaskService.Controllers.DTO.Requests;
 using TaskService.Data.Entities;
-using TaskService.Data.Interfaces;
+using TaskService.Data.Repositories.Interfaces;
 
 namespace TaskService.Data.Repositories;
 

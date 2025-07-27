@@ -2,13 +2,8 @@ namespace TaskService.Data.Entities;
 
 public enum JobActionType
 {
-    Created,
-    NameUpdated,
-    DescriptionUpdated,
-    DeadlineUpdated,
-    StatusChanged,
+    Created = 1,
+    Updated,
     Assigned,
-    Unassigned,
-    Deleted,
-    Completed
+    Deleted
 }

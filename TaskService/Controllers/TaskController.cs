@@ -1,12 +1,15 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskService.Controllers.DTO.Requests;
 using TaskService.Controllers.DTO.Responses;
+using TaskService.Logic.Services.Interfaces;
 
 namespace TaskService.Controllers;
 
 [ApiController]
 [Route("api/tasks")]
+[Authorize]
 public class TaskController : ControllerBase
 {
     private readonly IJobService _jobService;
@@ -18,12 +21,13 @@ public class TaskController : ControllerBase
 
     private int GetUserId()
     {
-        // var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        // if (!int.TryParse(userIdStr, out var userId))
-        //     throw new Exception("UserID is not valid");
-        // return userId;
+        var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value 
+                        ?? User.FindFirst("sub")?.Value;
 
-        return 1;
+        if (!int.TryParse(userIdStr, out var userId))
+            throw new Exception("UserID is not valid");
+
+        return userId;
     }
     
     [HttpGet]
@@ -37,10 +41,7 @@ public class TaskController : ControllerBase
     public async Task<ActionResult<GetJobResponse>> GetTaskById(int id)
     {
         var job = await _jobService.GetJobByIdAsync(id);
-        if (job == null)
-            return NotFound();
-
-        return Ok(job);
+        return job is null ? NotFound() : Ok(job);
     }
     
     [HttpPost]
@@ -56,10 +57,7 @@ public class TaskController : ControllerBase
     {
         var userId = GetUserId();
         var updated = await _jobService.UpdateJobAsync(id, request, userId);
-        if (!updated)
-            return NotFound();
-
-        return NoContent();
+        return updated ? NoContent() : NotFound();
     }
 
     [HttpDelete("{id}")]
@@ -67,10 +65,7 @@ public class TaskController : ControllerBase
     {
         var userId = GetUserId();
         var deleted = await _jobService.DeleteJobAsync(id, userId);
-        if (!deleted)
-            return NotFound();
-
-        return NoContent();
+        return deleted ? NoContent() : NotFound();
     }
 
     [HttpPut("{id}/assign")]
@@ -78,9 +73,6 @@ public class TaskController : ControllerBase
     {
         var userId = GetUserId();
         var assigned = await _jobService.AssignPerformerAsync(id, request.PerformerId, userId);
-        if (!assigned)
-            return NotFound();
-
-        return NoContent();
+        return assigned ? NoContent() : NotFound();
     }
 }

@@ -1,0 +1,140 @@
+version: '3.8'
+
+services:
+  # Базы данных
+  postgres-auth:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: AuthServiceDb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - auth-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  postgres-task:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: TaskServiceDb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - task-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  postgres-notification:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: NotificationServiceDb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - notification-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  # AuthService
+  auth-service:
+    build:
+      context: ./AuthService
+    environment:
+      ConnectionStrings__Connection: "Host=postgres-auth;Port=5432;Database=AuthServiceDb;Username=postgres;Password=postgres"
+      Jwt__Secret: "MySuperSecretKey1234567890_ExtraChars12345"
+      Jwt__Issuer: "MyAuthService"
+      Jwt__Audience: "MyAuthServiceUsers"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - "5003:80"
+    depends_on:
+      postgres-auth:
+        condition: service_healthy
+    networks:
+      - backend
+
+  # TaskService
+  task-service:
+    build:
+      context: ./TaskService
+    environment:
+      ConnectionStrings__Connection: "Host=postgres-task;Port=5432;Database=TaskServiceDb;Username=postgres;Password=postgres"
+      NotificationService__BaseUrl: "http://notification-service:80"
+      Jwt__Secret: "MySuperSecretKey1234567890_ExtraChars12345"
+      Jwt__Issuer: "MyAuthService"
+      Jwt__Audience: "MyAuthServiceUsers"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - "5001:80"
+    depends_on:
+      postgres-task:
+        condition: service_healthy
+      notification-service:
+        condition: service_started
+    networks:
+      - backend
+
+  # NotificationService
+  notification-service:
+    build:
+      context: ./NotificationService
+    environment:
+      ConnectionStrings__Connection: "Host=postgres-notification;Port=5432;Database=NotificationServiceDb;Username=postgres;Password=postgres"
+      Jwt__Secret: "MySuperSecretKey1234567890_ExtraChars12345"
+      Jwt__Issuer: "MyAuthService"
+      Jwt__Audience: "MyAuthServiceUsers"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - "5002:80"
+    depends_on:
+      postgres-notification:
+        condition: service_healthy
+    networks:
+      - backend
+
+  # API Gateway
+  gateway:
+    build:
+      context: ./ApiGateway
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - "8080:80"
+      - "8081:81"
+    depends_on:
+      auth-service:
+        condition: service_started
+      task-service:
+        condition: service_started
+      notification-service:
+        condition: service_started
+    networks:
+      - backend
+
+volumes:
+  auth-data:
+  task-data:
+  notification-data:
+
+networks:
+  backend:
+    driver: bridge
