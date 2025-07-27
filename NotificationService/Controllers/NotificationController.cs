@@ -38,6 +38,6 @@ public class NotificationController : ControllerBase
     public async Task<IActionResult> MarkAsRead(int id)
     {
         var updated = await _service.MarkAsReadAsync(id);
-        return updated ? NoContent() : NotFound();
+        return updated ? Ok("Уведомление прочитано.") : NotFound();
     }
 }

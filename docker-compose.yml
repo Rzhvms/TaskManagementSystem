@@ -119,7 +119,6 @@ services:
       ASPNETCORE_URLS: "http://+:80"
     ports:
       - "8080:80"
-      - "8081:81"
     depends_on:
       auth-service:
         condition: service_started

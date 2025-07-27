@@ -57,7 +57,7 @@ public class TaskController : ControllerBase
     {
         var userId = GetUserId();
         var updated = await _jobService.UpdateJobAsync(id, request, userId);
-        return updated ? NoContent() : NotFound();
+        return updated ? Ok("Задача изменена.") : NotFound();
     }
 
     [HttpDelete("{id}")]
@@ -73,6 +73,6 @@ public class TaskController : ControllerBase
     {
         var userId = GetUserId();
         var assigned = await _jobService.AssignPerformerAsync(id, request.PerformerId, userId);
-        return assigned ? NoContent() : NotFound();
+        return assigned ? Ok("Исполнитель назначен.") : NotFound();
     }
 }

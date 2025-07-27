@@ -1,4 +1,6 @@
-using ApiGateway;
+using ApiGateway.Middleware;
+using ApiGateway.Polly;
+using ApiGateway.Transforms;
 using Microsoft.Extensions.Http;
 using Polly;
 using Polly.Extensions.Http;
@@ -29,12 +31,17 @@ builder.Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
     .AddTransforms<JwtTokenTransform>();
 
+// Logs
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 var app = builder.Build();
 
 // Middleware
 app.UseHttpLogging();
 app.UseWebSockets();
 app.UseHttpsRedirection();
+app.UseMiddleware<CachingMiddleware>();
 
 app.MapReverseProxy();
 
