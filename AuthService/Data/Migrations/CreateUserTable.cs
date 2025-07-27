@@ -13,6 +13,9 @@ public class CreateUserTable : Migration
             .WithColumn("email").AsString(255).NotNullable().Unique()
             .WithColumn("password_hash").AsString(255).NotNullable()
             .WithColumn("created_at").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime);
+
+        Create.Index("idx_users_email").OnTable("users").OnColumn("email").Ascending();
+        Create.Index("idx_users_username").OnTable("users").OnColumn("username").Ascending();
     }
 
     public override void Down()

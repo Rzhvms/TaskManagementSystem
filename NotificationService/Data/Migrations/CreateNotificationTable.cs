@@ -16,6 +16,12 @@ public class CreateNotificationTable : Migration
                 .WithColumn("message").AsString(1000).NotNullable()
                 .WithColumn("created_at").AsDateTime().NotNullable()
                 .WithColumn("is_read").AsBoolean().NotNullable().WithDefaultValue(false);
+
+            Create.Index("idx_notifications_user_id").OnTable("notifications").OnColumn("user_id").Ascending();
+            Create.Index("idx_notifications_user_id_is_read").OnTable("notifications")
+                .OnColumn("user_id").Ascending()
+                .OnColumn("is_read").Ascending();
+            Create.Index("idx_notifications_created_at").OnTable("notifications").OnColumn("created_at").Descending();
         }
     }
 
