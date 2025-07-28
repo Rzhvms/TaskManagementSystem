@@ -1,5 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService", "TaskService\TaskService.csproj", "{C443911B-8A0B-4FA8-B235-9C880D14198A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService", "NotificationService\NotificationService.csproj", "{8022BC52-7E9D-4A22-9995-51AD232EE60F}"
@@ -9,6 +10,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{1B259B14-AEED-4782-B036-598AA28DEE22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthChecksLibrary", "HealthChecksLibrary\HealthChecksLibrary.csproj", "{4B49181E-40BB-407E-9AAB-800D6443813E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Tests", "TaskService.Tests\TaskService.Tests.csproj", "{075C1C7D-923F-4D75-8729-2830A2A65C0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Tests", "AuthService.Tests\AuthService.Tests.csproj", "{365CCF0F-9364-41E7-B019-E2E36A0E7EA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Tests", "NotificationService.Tests\NotificationService.Tests.csproj", "{41A182D2-E1F9-483E-A618-CFB2B2FC3608}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +43,17 @@ Global
 		{4B49181E-40BB-407E-9AAB-800D6443813E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B49181E-40BB-407E-9AAB-800D6443813E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B49181E-40BB-407E-9AAB-800D6443813E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{075C1C7D-923F-4D75-8729-2830A2A65C0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{075C1C7D-923F-4D75-8729-2830A2A65C0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{075C1C7D-923F-4D75-8729-2830A2A65C0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{075C1C7D-923F-4D75-8729-2830A2A65C0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{365CCF0F-9364-41E7-B019-E2E36A0E7EA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{365CCF0F-9364-41E7-B019-E2E36A0E7EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{365CCF0F-9364-41E7-B019-E2E36A0E7EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{365CCF0F-9364-41E7-B019-E2E36A0E7EA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41A182D2-E1F9-483E-A618-CFB2B2FC3608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41A182D2-E1F9-483E-A618-CFB2B2FC3608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41A182D2-E1F9-483E-A618-CFB2B2FC3608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41A182D2-E1F9-483E-A618-CFB2B2FC3608}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
