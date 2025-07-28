@@ -1,14 +1,18 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["TaskService.csproj", "./"]
-RUN dotnet restore "TaskService.csproj"
+COPY TaskService/TaskService.csproj TaskService/
+COPY HealthChecksLibrary/HealthChecksLibrary.csproj HealthChecksLibrary/
 
-# Копируем всё остальное и публикуем
-COPY . .
+RUN dotnet restore TaskService/TaskService.csproj
+
+COPY TaskService/ TaskService/
+COPY HealthChecksLibrary/ HealthChecksLibrary/
+
+WORKDIR /src/TaskService
+
 RUN dotnet publish "TaskService.csproj" -c Release -o /app/publish
 
-# Финальный образ
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 EXPOSE 5000

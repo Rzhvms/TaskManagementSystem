@@ -2,6 +2,7 @@ using System.Data;
 using System.Text;
 using Dapper.FluentMap;
 using FluentMigrator.Runner;
+using HealthChecksLibrary.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -110,7 +111,13 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// Health Checks
+builder.Services.AddDefaultHealthChecks();
+
 var app = builder.Build();
+
+// Health Checks
+app.MapDefaultHealthChecks();
 
 // Apply Migrations
 using (var scope = app.Services.CreateScope())

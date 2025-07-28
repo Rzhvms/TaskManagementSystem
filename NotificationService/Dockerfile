@@ -1,14 +1,18 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["NotificationService.csproj", "./"]
-RUN dotnet restore "NotificationService.csproj"
+COPY NotificationService/NotificationService.csproj NotificationService/
+COPY HealthChecksLibrary/HealthChecksLibrary.csproj HealthChecksLibrary/
 
-# Копируем всё остальное и публикуем
-COPY . .
+RUN dotnet restore NotificationService/NotificationService.csproj
+
+COPY NotificationService/ NotificationService/
+COPY HealthChecksLibrary/ HealthChecksLibrary/
+
+WORKDIR /src/NotificationService
+
 RUN dotnet publish "NotificationService.csproj" -c Release -o /app/publish
 
-# Финальный образ
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 EXPOSE 5000

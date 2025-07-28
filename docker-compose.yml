@@ -53,7 +53,8 @@ services:
   # AuthService
   auth-service:
     build:
-      context: ./AuthService
+      context: .
+      dockerfile: AuthService/Dockerfile
     environment:
       ConnectionStrings__Connection: "Host=postgres-auth;Port=5432;Database=AuthServiceDb;Username=postgres;Password=postgres"
       Jwt__Secret: "MySuperSecretKey1234567890_ExtraChars12345"
@@ -72,7 +73,8 @@ services:
   # TaskService
   task-service:
     build:
-      context: ./TaskService
+      context: .
+      dockerfile: TaskService/Dockerfile
     environment:
       ConnectionStrings__Connection: "Host=postgres-task;Port=5432;Database=TaskServiceDb;Username=postgres;Password=postgres"
       NotificationService__BaseUrl: "http://notification-service:80"
@@ -94,7 +96,8 @@ services:
   # NotificationService
   notification-service:
     build:
-      context: ./NotificationService
+      context: .
+      dockerfile: NotificationService/Dockerfile
     environment:
       ConnectionStrings__Connection: "Host=postgres-notification;Port=5432;Database=NotificationServiceDb;Username=postgres;Password=postgres"
       Jwt__Secret: "MySuperSecretKey1234567890_ExtraChars12345"
