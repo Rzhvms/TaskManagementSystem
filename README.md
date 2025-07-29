@@ -135,8 +135,7 @@ curl -X 'GET' \
 
 PUT api/tasks/{id}
 ```cmd
-curl -X 'POST' \
-  curl -X 'PUT' \
+curl -X 'PUT' \
   'http://localhost:8080/api/tasks/1' \
   -H 'accept: */*' \
   -H 'Authorization: Bearer <token>' \
